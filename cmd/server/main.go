@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/TelvoWarrior/Sunday-Project/database"
@@ -13,9 +14,16 @@ const port string = ":9999"
 
 func main() {
 	fmt.Println("Hello, Sunday project!")
-	client := database.Connect()
 
-	defer client.Disconnect(context.Background())
+	ctx := context.Background()
+
+	client, err := database.Connect(ctx)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer client.Disconnect(ctx)
 
 	http.HandleFunc("GET /{$}", handlers.HomePage)
 	http.HandleFunc("GET /login", handlers.LoginPage)

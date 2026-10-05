@@ -10,18 +10,18 @@ import (
 
 const mongoURI = "mongodb://localhost:27017"
 
-func Connect() *mongo.Client {
-	client, err := mongo.Connect(
-		options.Client().ApplyURI(mongoURI),
-	)
+func Connect(ctx context.Context) (*mongo.Client, error) {
+	client, err := mongo.Connect(options.Client().ApplyURI(mongoURI))
+
 	if err != nil {
-		fmt.Println("Ошибка подключения к MongoDB:", err)
+		return nil, fmt.Errorf("connect MongoDB: %w", err)
 	}
 
 	if err := client.Ping(context.Background(), nil); err != nil {
-		fmt.Println("MongoDB недоступна:", err)
+		_ = client.Disconnect(ctx)
+		return nil, fmt.Errorf("connect MongoDB: %w", err)
 	}
 
 	fmt.Println("Подключение к MongoDB успешно")
-	return client
+	return client, nil
 }

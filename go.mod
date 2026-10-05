@@ -1,4 +1,4 @@
-module sundayProject
+module github.com/TelvoWarrior/Sunday-Project
 
 go 1.25.4
 

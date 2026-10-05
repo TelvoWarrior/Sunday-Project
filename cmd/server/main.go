@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"sundayProject/database"
-	"sundayProject/handlers"
+
+	"github.com/TelvoWarrior/Sunday-Project/database"
+	"github.com/TelvoWarrior/Sunday-Project/handlers"
 )
 
 const port string = ":9999"

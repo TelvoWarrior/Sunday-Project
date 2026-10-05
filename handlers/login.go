@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"sundayProject/auth"
-	"sundayProject/models"
 	"time"
 
+	"github.com/TelvoWarrior/Sunday-Project/models"
+	"github.com/TelvoWarrior/Sunday-Project/auth"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"golang.org/x/crypto/bcrypt"

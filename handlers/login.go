@@ -2,29 +2,18 @@ package handlers
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"time"
 
-	"github.com/TelvoWarrior/Sunday-Project/models"
 	"github.com/TelvoWarrior/Sunday-Project/auth"
+	"github.com/TelvoWarrior/Sunday-Project/models"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func LoginPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("templates/login.html")
-	if err != nil {
-		fmt.Println("Ошибка чтения шаблона:", err)
-		http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
-		return
-	}
-
-	err = tmpl.Execute(w, nil)
-	if err != nil {
-		fmt.Println("Ошибка рендера шаблона:", err)
-	}
+	renderTemplate(w, "templates/login.html", nil)
 }
 
 func LoginAccount(client *mongo.Client) http.HandlerFunc {

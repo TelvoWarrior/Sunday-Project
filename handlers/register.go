@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/TelvoWarrior/Sunday-Project/models"
@@ -17,23 +15,12 @@ type RegisterPageData struct {
 }
 
 func RegisterPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("templates/register.html")
-	if err != nil {
-		fmt.Println("Ошибка чтения шаблона:", err)
-		http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
-		return
-	}
-
 	data := RegisterPageData{
 		Success: r.URL.Query().Get("success") == "1",
 		Error:   r.URL.Query().Get("error"),
 	}
 
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		fmt.Println("Ошибка рендера шаблона:", err)
-		http.Error(w, "Внутренняя ошибка сервера", http.StatusInternalServerError)
-	}
+	renderTemplate(w, "templates/register.html", data)
 }
 
 func RegisterAccount(client *mongo.Client) http.HandlerFunc {

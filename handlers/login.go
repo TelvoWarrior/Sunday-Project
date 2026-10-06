@@ -16,7 +16,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "templates/login.html", nil)
 }
 
-func LoginAccount(client *mongo.Client) http.HandlerFunc {
+func LoginAccount(db *mongo.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
@@ -32,7 +32,7 @@ func LoginAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		accountsCollection := client.Database("sundayProject").Collection("accounts")
+		accountsCollection := db.Collection("accounts")
 
 		var account models.Account
 
@@ -70,7 +70,7 @@ func LoginAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		sessionsCollection := client.Database("sundayProject").Collection("sessions")
+		sessionsCollection := db.Collection("sessions")
 
 		session := models.Session{
 			Token:     token,

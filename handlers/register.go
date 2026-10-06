@@ -23,7 +23,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "templates/register.html", data)
 }
 
-func RegisterAccount(client *mongo.Client) http.HandlerFunc {
+func RegisterAccount(db *mongo.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
@@ -49,7 +49,7 @@ func RegisterAccount(client *mongo.Client) http.HandlerFunc {
 			return
 		}
 
-		collection := client.Database("sundayProject").Collection("accounts")
+		collection := db.Collection("accounts")
 
 		account := models.Account{
 			Login:    login,

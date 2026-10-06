@@ -3,14 +3,19 @@ package database
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-const mongoURI = "mongodb://localhost:27017"
-
 func Connect(ctx context.Context) (*mongo.Client, error) {
+	mongoURI := os.Getenv("MONGO_URI")
+
+	if mongoURI == "" {
+		mongoURI = "mongodb://localhost:27017"
+	}
+
 	client, err := mongo.Connect(options.Client().ApplyURI(mongoURI))
 
 	if err != nil {

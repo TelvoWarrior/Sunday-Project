@@ -14,7 +14,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Вы успешно вошли в аккаунт")
 }
 
-func RequireAuth(client *mongo.Client, next http.HandlerFunc) http.HandlerFunc {
+func RequireAuth(db *mongo.Database, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("session_token")
 		if err != nil {
@@ -22,7 +22,7 @@ func RequireAuth(client *mongo.Client, next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
-		sessionsCollection := client.Database("sundayProject").Collection("sessions")
+		sessionsCollection := db.Collection("sessions")
 
 		var session models.Session
 

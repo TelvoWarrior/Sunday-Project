@@ -35,7 +35,7 @@ func main() {
 		databaseName = "sundayProject"
 	}
 
-	db := client.Database("sundayProject")
+	db := client.Database(databaseName)
 
 	http.HandleFunc("GET /{$}", handlers.HomePage)
 	http.HandleFunc("GET /login", handlers.LoginPage)

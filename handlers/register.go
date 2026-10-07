@@ -27,7 +27,7 @@ func RegisterAccount(db *mongo.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
-			http.Error(w, "Не удалось прочитать форму", http.StatusBadRequest)
+			http.Error(w, "Failed to parse form", http.StatusBadRequest)
 			return
 		}
 
@@ -45,7 +45,7 @@ func RegisterAccount(db *mongo.Database) http.HandlerFunc {
 		)
 
 		if err != nil {
-			http.Error(w, "Не удалось обработать пароль", http.StatusInternalServerError)
+			http.Error(w, "Failed to hash password", http.StatusInternalServerError)
 			return
 		}
 
@@ -64,7 +64,7 @@ func RegisterAccount(db *mongo.Database) http.HandlerFunc {
 				return
 			}
 
-			http.Error(w, "Не удалось создать пользователя", http.StatusInternalServerError)
+			http.Error(w, "Failed to create user", http.StatusInternalServerError)
 			return
 		}
 

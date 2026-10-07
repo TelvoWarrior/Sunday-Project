@@ -20,7 +20,7 @@ func LoginAccount(db *mongo.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
-			http.Error(w, "Не удалось прочитать форму", http.StatusBadRequest)
+			http.Error(w, "Failed to parse form", http.StatusBadRequest)
 			return
 		}
 
@@ -41,16 +41,15 @@ func LoginAccount(db *mongo.Database) http.HandlerFunc {
 			bson.M{"login": login},
 		).Decode(&account)
 
-		fmt.Println("Ошибка поиска аккаунта:", err)
+		fmt.Println("Account lookup error:", err)
 
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				// Не сообщаем, существует ли такой логин.
 				http.Redirect(w, r, "/login?error=invalid_credentials", http.StatusSeeOther)
 				return
 			}
 
-			http.Error(w, "Не удалось выполнить вход", http.StatusInternalServerError)
+			http.Error(w, "Failed to sign in", http.StatusInternalServerError)
 			return
 		}
 
@@ -66,7 +65,7 @@ func LoginAccount(db *mongo.Database) http.HandlerFunc {
 
 		token, err := auth.GenerateSessionToken()
 		if err != nil {
-			http.Error(w, "Не удалось создать сессию", http.StatusInternalServerError)
+			http.Error(w, "Failed to create session", http.StatusInternalServerError)
 			return
 		}
 
@@ -80,7 +79,7 @@ func LoginAccount(db *mongo.Database) http.HandlerFunc {
 
 		_, err = sessionsCollection.InsertOne(r.Context(), session)
 		if err != nil {
-			http.Error(w, "Не удалось сохранить сессию", http.StatusInternalServerError)
+			http.Error(w, "Failed to save session", http.StatusInternalServerError)
 			return
 		}
 
@@ -89,7 +88,7 @@ func LoginAccount(db *mongo.Database) http.HandlerFunc {
 			Value:    token,
 			Path:     "/",
 			HttpOnly: true,
-			Secure:   false, // Для localhost; на HTTPS-сервере — true.
+			Secure:   false, // For localhost only; For HTTPS-server — true.
 			SameSite: http.SameSiteLaxMode,
 			MaxAge:   7 * 24 * 60 * 60,
 		})

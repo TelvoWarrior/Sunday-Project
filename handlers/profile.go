@@ -11,7 +11,7 @@ import (
 )
 
 func Profile(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Вы успешно вошли в аккаунт")
+	fmt.Fprintln(w, "You have successfully signed in")
 }
 
 func RequireAuth(db *mongo.Database, next http.HandlerFunc) http.HandlerFunc {

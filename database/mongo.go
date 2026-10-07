@@ -27,6 +27,6 @@ func Connect(ctx context.Context) (*mongo.Client, error) {
 		return nil, fmt.Errorf("connect MongoDB: %w", err)
 	}
 
-	fmt.Println("Подключение к MongoDB успешно")
+	fmt.Println("Successfully connected to MongoDB")
 	return client, nil
 }
